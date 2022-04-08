@@ -29,6 +29,27 @@ server.get("/friends", (req, res) => {
   res.send(friends);
 });
 
+server.use(express.json());
+
+server.post("/friends", (req, res) => {
+  if (!req.body.name) {
+    return res.status(404).json({
+      error: "invalid name input",
+    });
+  }
+
+  const newFriend = {
+    id: friends.length,
+    name: req.body.name,
+  };
+
+  friends.push(newFriend);
+
+  res.json(newFriend);
+
+  // res.send(friends);
+});
+
 // for parameterized routing with error handling
 
 server.get("/friends/:id", (req, res) => {

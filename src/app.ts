@@ -1,13 +1,18 @@
-import express from 'express'
-import router from './routes/routes';
+import express from "express";
+import path from "path";
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "..", "public")));
 
-// for parameterized routing with error handling
+app.get("/secret", (req, res) => {
+  return res.json({
+    secretNumber: "Your secret number is 49",
+  });
+});
 
-app.use('/', router)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
 
-
-
-export default app
+export default app;

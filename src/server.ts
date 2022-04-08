@@ -1,10 +1,14 @@
-import http from 'http'
+import fs from 'fs'
 import app from './app';
+import https from 'https'
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const server = http.createServer(app)
+const server = https.createServer({
+  key : fs.readFileSync('key.pem'),
+  cert :  fs.readFileSync('cert.pem')
+}, app)
 
 server.listen(PORT, () => {
-  console.log("Express server is running ...");
+  console.log(`server is listening at port: ${PORT}`);
 });

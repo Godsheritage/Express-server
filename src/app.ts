@@ -1,10 +1,21 @@
-import express from "express";
+import express, { RequestHandler } from "express";
 import helmet from "helmet";
 import path from "path";
 
 const app = express();
 
-app.use(helmet())
+app.use(helmet());
+
+const checkIsLoggedIn: RequestHandler = (req, res, next) => {
+  const isLoggedIn = true;
+
+  if (isLoggedIn) {
+    return res.status(400).json({
+      error: "You have to be logged in first",
+    });
+  }
+  next();
+};
 
 app.get("/secret", (req, res) => {
   return res.json({

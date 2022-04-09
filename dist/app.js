@@ -8,7 +8,19 @@ const helmet_1 = __importDefault(require("helmet"));
 const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
-app.get("/secret", (req, res) => {
+const checkLoggedIn = (req, res, next) => {
+    const isLoggedIn = true;
+    if (!isLoggedIn) {
+        return res.status(401).json({
+            error: "You have to be logged in first",
+        });
+    }
+    next();
+};
+app.get('/auth/google', (req, res) => { });
+app.get('/auth/google/callback', (req, res) => { });
+app.get('/auth/logout', (req, res) => { });
+app.get("/secret", checkLoggedIn, (req, res) => {
     return res.json({
         secretNumber: "Your secret number is 49",
     });

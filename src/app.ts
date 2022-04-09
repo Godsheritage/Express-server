@@ -6,18 +6,19 @@ const app = express();
 
 app.use(helmet());
 
-const checkIsLoggedIn: RequestHandler = (req, res, next) => {
+const checkLoggedIn: RequestHandler = (req, res, next) => {
   const isLoggedIn = true;
 
-  if (isLoggedIn) {
-    return res.status(400).json({
+  if (!isLoggedIn) {
+    return res.status(401).json({
       error: "You have to be logged in first",
     });
   }
+
   next();
 };
 
-app.get("/secret", (req, res) => {
+app.get("/secret", checkLoggedIn, (req, res) => {
   return res.json({
     secretNumber: "Your secret number is 49",
   });

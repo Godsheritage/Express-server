@@ -18,6 +18,14 @@ const checkLoggedIn: RequestHandler = (req, res, next) => {
   next();
 };
 
+const config = {
+  CLIENT_ID : '1093093735366-hsninpof1l6n4jsujcq48v72mhnffg3b.apps.googleusercontent.com',
+  CLIENT_SECRET : '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'
+
+}
+
+
+
 app.get('/auth/google', (req , res) => {})
 
 app.get('/auth/google/callback', (req , res) => {})

@@ -10,11 +10,11 @@ const app = express();
 
 const config = {
   CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRETS: process.env.CLIENT_SECRETS,
+  CLIENT_SECRETS: process.env.CLIENT_SECRET,
 };
 
 const AUTH_OPTIONS: any = {
-  callbackURL: "auth/google/callback",
+  callbackURL: '/auth/google/callback',
   clientID: config.CLIENT_ID,
   clientSecret: config.CLIENT_SECRETS,
 };
@@ -25,7 +25,7 @@ const verifyCallback: any = (
   profile: any,
   done: any
 ) => {
-  console.log(`Google Profile: ${profile}`);
+  console.log('Google Profile', profile);
   done(null, profile);
 };
 

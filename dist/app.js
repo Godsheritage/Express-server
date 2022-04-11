@@ -13,15 +13,15 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const config = {
     CLIENT_ID: process.env.CLIENT_ID,
-    CLIENT_SECRETS: process.env.CLIENT_SECRETS,
+    CLIENT_SECRETS: process.env.CLIENT_SECRET,
 };
 const AUTH_OPTIONS = {
-    callbackURL: "auth/google/callback",
+    callbackURL: '/auth/google/callback',
     clientID: config.CLIENT_ID,
     clientSecret: config.CLIENT_SECRETS,
 };
 const verifyCallback = (accessToken, refreshToken, profile, done) => {
-    console.log(`Google Profile: ${profile}`);
+    console.log('Google Profile', profile);
     done(null, profile);
 };
 passport_1.default.use(new passport_google_oauth20_1.Strategy(AUTH_OPTIONS, verifyCallback));

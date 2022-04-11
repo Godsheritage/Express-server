@@ -1,6 +1,10 @@
-import express, { RequestHandler } from "express";
-import helmet from "helmet";
 import path from "path";
+import helmet from "helmet";
+import express, { RequestHandler } from "express";
+import passport from "passport";
+import { Strategy } from "passport-google-oauth20";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -19,18 +23,15 @@ const checkLoggedIn: RequestHandler = (req, res, next) => {
 };
 
 const config = {
-  CLIENT_ID : '1093093735366-hsninpof1l6n4jsujcq48v72mhnffg3b.apps.googleusercontent.com',
-  CLIENT_SECRET : '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'
+  CLIENT_ID: process.env.CLIENT_ID,
+  CLIENT_SECRETS: process.env.CLIENT_SECRETS,
+};
 
-}
+app.get("/auth/google", (req, res) => {});
 
+app.get("/auth/google/callback", (req, res) => {});
 
-
-app.get('/auth/google', (req , res) => {})
-
-app.get('/auth/google/callback', (req , res) => {})
-
-app.get('/auth/logout', (req , res) => {})
+app.get("/auth/logout", (req, res) => {});
 
 app.get("/secret", checkLoggedIn, (req, res) => {
   return res.json({

@@ -13,14 +13,19 @@ const config = {
   CLIENT_SECRETS: process.env.CLIENT_SECRETS,
 };
 
-const AUTH_OPTIONS = {
-  callBackURL: "auth/google/callback",
+const AUTH_OPTIONS: any = {
+  callbackURL: "auth/google/callback",
   clientID: config.CLIENT_ID,
   clientSecret: config.CLIENT_SECRETS,
 };
 
-const verifyCallback: any = (accessToken:any, refreshToken: any, profile:any, done:any) => {
-  console.log(`Google Profile ${profile}`);
+const verifyCallback: any = (
+  accessToken: any,
+  refreshToken: any,
+  profile: any,
+  done: any
+) => {
+  console.log(`Google Profile: ${profile}`);
   done(null, profile);
 };
 
@@ -42,6 +47,13 @@ const checkLoggedIn: RequestHandler = (req, res, next) => {
 };
 
 app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["email"],
+  })
+);
+
+app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/failure",
@@ -53,11 +65,14 @@ app.get(
   }
 );
 
-app.get("/auth/google", passport.authenticate('google', {
-  scope : ['email']
-}));
 
 app.get("/auth/logout", (req, res) => {});
+
+app.get("/secret", checkLoggedIn, (req, res) => {
+  return res.json({
+    secretNumber: "Your secret number is 49",
+  });
+});
 
 app.get("failure", (req, res) => {
   return res.status(400).json({
@@ -65,11 +80,6 @@ app.get("failure", (req, res) => {
   });
 });
 
-app.get("/secret", checkLoggedIn, (req, res) => {
-  return res.json({
-    secretNumber: "Your secret number is 49",
-  });
-});
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 

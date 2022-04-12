@@ -59,7 +59,7 @@ app.use(passport.session())
 
 const checkLoggedIn: RequestHandler = (req, res, next) => { //req.user
   console.log(`the surrent user is ${req.user}`)
-  const isLoggedIn = req.user;
+  const isLoggedIn = req.isAuthenticated() && req.user;
 
   if (!isLoggedIn) {
     return res.status(401).json({

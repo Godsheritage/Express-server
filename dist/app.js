@@ -47,7 +47,7 @@ app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 const checkLoggedIn = (req, res, next) => {
     console.log(`the surrent user is ${req.user}`);
-    const isLoggedIn = req.user;
+    const isLoggedIn = req.isAuthenticated() && req.user;
     if (!isLoggedIn) {
         return res.status(401).json({
             error: "You have to be logged in first",

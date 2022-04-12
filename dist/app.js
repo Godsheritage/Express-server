@@ -30,11 +30,11 @@ const verifyCallback = (accessToken, refreshToken, profile, done) => {
 passport_1.default.use(new passport_google_oauth20_1.Strategy(AUTH_OPTIONS, verifyCallback));
 //save the session to the cookie
 passport_1.default.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.id);
 });
 //read the session from the cookie
-passport_1.default.deserializeUser((obj, done) => {
-    done(null, obj);
+passport_1.default.deserializeUser((id, done) => {
+    done(null, id);
 });
 app.use((0, helmet_1.default)());
 app.use((0, cookie_session_1.default)({

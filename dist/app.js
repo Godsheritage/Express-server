@@ -45,6 +45,7 @@ app.use((0, cookie_session_1.default)({
 app.use(passport_1.default.initialize());
 //to authenticate the session being sent to the server
 app.use(passport_1.default.session());
+// to check if a user is logged in 
 const checkLoggedIn = (req, res, next) => {
     //req.user
     console.log(`the surrent user is ${req.user}`);
@@ -59,6 +60,7 @@ const checkLoggedIn = (req, res, next) => {
 app.get("/auth/google", passport_1.default.authenticate("google", {
     scope: ["email"],
 }));
+//callback url
 app.get("/auth/google/callback", passport_1.default.authenticate("google", {
     failureRedirect: "/failure",
     successRedirect: "/",

@@ -57,8 +57,9 @@ app.use(passport.initialize());
 //to authenticate the session being sent to the server
 app.use(passport.session())
 
-const checkLoggedIn: RequestHandler = (req, res, next) => {
-  const isLoggedIn = true;
+const checkLoggedIn: RequestHandler = (req, res, next) => { //req.user
+  console.log(`the surrent user is ${req.user}`)
+  const isLoggedIn = req.user;
 
   if (!isLoggedIn) {
     return res.status(401).json({

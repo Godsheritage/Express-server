@@ -41,6 +41,7 @@ app.use(cookieSession({
   maxAge : 24 * 60 * 60*1000,
   keys : [config.COOKIE_KEY_1 , config.COOKIE_KEY_2]
 }))
+
 app.use(passport.initialize());
 
 const checkLoggedIn: RequestHandler = (req, res, next) => {

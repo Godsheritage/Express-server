@@ -54,6 +54,9 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 
+//to authenticate the session being sent to the server
+app.use(passport.session())
+
 const checkLoggedIn: RequestHandler = (req, res, next) => {
   const isLoggedIn = true;
 
@@ -77,8 +80,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/failure",
-    successRedirect: "/",
-    session: false,
+    successRedirect: "/"
   }),
   (req, res) => {
     console.log("Google called us back");

@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 
-const config = {
+const config: any = {
   CLIENT_ID: process.env.CLIENT_ID,
   CLIENT_SECRETS: process.env.CLIENT_SECRET,
   COOKIE_KEY_1 : process.env.COOKIE_KEY_1,

@@ -19,12 +19,12 @@ const config = {
     COOKIE_KEY_2: process.env.COOKIE_KEY_2,
 };
 const AUTH_OPTIONS = {
-    callbackURL: '/auth/google/callback',
+    callbackURL: "/auth/google/callback",
     clientID: config.CLIENT_ID,
     clientSecret: config.CLIENT_SECRETS,
 };
 const verifyCallback = (accessToken, refreshToken, profile, done) => {
-    console.log('Google Profile', profile);
+    console.log("Google Profile", profile);
     done(null, profile);
 };
 passport_1.default.use(new passport_google_oauth20_1.Strategy(AUTH_OPTIONS, verifyCallback));
@@ -38,14 +38,15 @@ passport_1.default.deserializeUser((id, done) => {
 });
 app.use((0, helmet_1.default)());
 app.use((0, cookie_session_1.default)({
-    name: 'session',
+    name: "session",
     maxAge: 24 * 60 * 60 * 1000,
-    keys: [config.COOKIE_KEY_1, config.COOKIE_KEY_2]
+    keys: [config.COOKIE_KEY_1, config.COOKIE_KEY_2],
 }));
 app.use(passport_1.default.initialize());
 //to authenticate the session being sent to the server
 app.use(passport_1.default.session());
 const checkLoggedIn = (req, res, next) => {
+    //req.user
     console.log(`the surrent user is ${req.user}`);
     const isLoggedIn = req.isAuthenticated() && req.user;
     if (!isLoggedIn) {
@@ -60,11 +61,15 @@ app.get("/auth/google", passport_1.default.authenticate("google", {
 }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", {
     failureRedirect: "/failure",
-    successRedirect: "/"
+    successRedirect: "/",
 }), (req, res) => {
     console.log("Google called us back");
 });
-app.get("/auth/logout", (req, res) => { });
+//to logout
+app.get("/auth/logout", (req, res) => {
+    req.logOut(); //removes req.user and slears any logged in session
+    return res.redirect('/');
+});
 app.get("/secret", checkLoggedIn, (req, res) => {
     return res.json({
         secretNumber: "Your secret number is 49",

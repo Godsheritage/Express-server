@@ -1,9 +1,10 @@
 import path from "path";
-import helmet from "helmet";
-import express, { RequestHandler } from "express";
-import passport from "passport";
-import { Strategy } from "passport-google-oauth20";
 import dotenv from "dotenv";
+import helmet from "helmet";
+import passport, { session } from "passport";
+import cookieSession from 'cookie-session'
+import express, { RequestHandler } from "express";
+import { Strategy } from "passport-google-oauth20";
 dotenv.config();
 
 const app = express();
@@ -11,6 +12,8 @@ const app = express();
 const config = {
   CLIENT_ID: process.env.CLIENT_ID,
   CLIENT_SECRETS: process.env.CLIENT_SECRET,
+  COOKIE_KEY_1 : process.env.COOKIE_KEY_1,
+  COOKIE_KEY_2 : process.env.COOKIE_KEY_2,
 };
 
 const AUTH_OPTIONS: any = {
@@ -32,6 +35,12 @@ const verifyCallback: any = (
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 
 app.use(helmet());
+
+app.use(cookieSession({
+  name : 'session',
+  maxAge : 24 * 60 * 60*1000,
+  keys : [config.COOKIE_KEY_1 , config.COOKIE_KEY_2]
+}))
 app.use(passport.initialize());
 
 const checkLoggedIn: RequestHandler = (req, res, next) => {

@@ -34,6 +34,16 @@ const verifyCallback: any = (
 
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 
+//save the session to the cookie
+passport.serializeUser((user , done) => {
+  done(null, user )
+})
+
+//read the session from the cookie
+passport.deserializeUser((obj : any,  done) => {
+  done(null, obj )
+})
+
 app.use(helmet());
 
 app.use(cookieSession({

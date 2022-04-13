@@ -56,6 +56,7 @@ app.use(
 
 app.use(passport.initialize());
 
+
 //to authenticate the session being sent to the server
 app.use(passport.session());
 
